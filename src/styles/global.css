@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Patrick+Hand&display=swap");
+
+:root {
+  --pink: #f7b8c8;
+  --yellow: #f8d77b;
+  --green: #a9dcc4;
+  --blue: #afc9f5;
+  --purple: #d5b8ea;
+  --peach: #f5b58d;
+  --ink: #514653;
+  --paper: #fffaf0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  background-color: #fff1e8;
+  background-image: radial-gradient(#e9c9d1 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 11px 18px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 3px 4px 0 var(--ink);
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: translateY(-3px) rotate(-1deg);
+}
+
+.app {
+  width: min(1100px, 92%);
+  margin: 35px auto;
+}
+
+.header {
+  padding: 35px;
+  margin-bottom: 28px;
+  background: var(--pink);
+  border: 2px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 6px 7px 0 var(--ink);
+}
+
+.header h1 {
+  font-family: "Patrick Hand", cursive;
+  font-size: clamp(35px, 6vw, 55px);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.reading {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 28px 0;
+  box-shadow: 5px 5px 0 #d9b9a9;
+}
+
+.reading h2,
+.reading h3 {
+  font-family: "Patrick Hand", cursive;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--blue);
+  box-shadow: 3px 4px 0 var(--ink);
+}
+
+.book-category {
+  display: inline-block;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .app {
+    width: 94%;
+    margin: 20px auto;
+  }
+
+  .reading {
+    padding: 18px;
+  }
+
+  .book-list {
+    grid-template-columns: 1fr;
+  }
+}

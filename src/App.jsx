@@ -1,52 +1,86 @@
-import "./style.css";
+import { useState } from "react";
+import "./styles/global.css";
+
+import Inicio from "./pages/Inicio";
+import Cadastro from "./pages/Cadastro";
+import Consulta from "./pages/Consulta";
+import Detalhes from "./pages/Detalhes";
+
+const categories = [
+  "Minha biblioteca",
+  "Lista de desejos",
+  "Lendo agora",
+  "Livros lidos",
+];
 
 function App() {
+  const [books, setBooks] = useState([]);
+  const [page, setPage] = useState("inicio");
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  function addBook(newBook) {
+    setBooks((currentBooks) => [...currentBooks, newBook]);
+    setPage("inicio");
+  }
+
+  function navigate(destination, category = null) {
+    if (category) {
+      setSelectedCategory(category);
+    }
+
+    setPage(destination);
+  }
+
+  function openDetails(book) {
+    setSelectedBook(book);
+    setPage("detalhes");
+  }
+
   return (
     <main className="app">
       <header className="header">
         <div>
           <p className="eyebrow">SEU CANTINHO LITERÁRIO</p>
-          <h1>Minha Biblioteca</h1>
+          <h1>Minha Biblioteca 📚</h1>
           <p>Todos os seus livros em um só lugar.</p>
         </div>
-        <span className="book-icon">📚</span>
       </header>
 
-      <section className="stats">
-        <article className="stat-card">
-          <span>📖</span>
-          <h2>0</h2>
-          <p>Minha biblioteca</p>
-        </article>
+      <nav className="book-form">
+        <button onClick={() => navigate("inicio")}>Início</button>
 
-        <article className="stat-card">
-          <span>💛</span>
-          <h2>0</h2>
-          <p>Lista de desejos</p>
-        </article>
+        <button onClick={() => navigate("cadastro")}>Cadastrar livro</button>
 
-        <article className="stat-card">
-          <span>✨</span>
-          <h2>0</h2>
-          <p>Livros lidos</p>
-        </article>
-      </section>
+        <button onClick={() => navigate("consulta")}>Consultar livros</button>
+      </nav>
 
-      <section className="reading">
-        <h2>📚 Lendo agora</h2>
-        <p>Suas próximas aventuras começam aqui.</p>
-      </section>
+      {page === "inicio" && (
+        <Inicio books={books} categories={categories} onNavigate={navigate} />
+      )}
 
-      <section className="empty">
-        <span className="empty-icon">📕</span>
-        <h2>Sua estante está esperando!</h2>
-        <p>Adicione seu primeiro livro para começar.</p>
-        <button
-          onClick={() => alert("Nosso próximo passo será criar o cadastro!")}
-        >
-          + Adicionar livro
-        </button>
-      </section>
+      {page === "cadastro" && (
+        <Cadastro
+          categories={categories}
+          onAddBook={addBook}
+          onBack={() => navigate("inicio")}
+        />
+      )}
+
+      {page === "consulta" && (
+        <Consulta
+          books={books}
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+          onBack={() => navigate("inicio")}
+          onOpenDetails={openDetails}
+        />
+      )}
+
+      {page === "detalhes" && (
+        <Detalhes book={selectedBook} onBack={() => navigate("consulta")} />
+      )}
     </main>
   );
 }

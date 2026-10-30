@@ -1,0 +1,25 @@
+.consulta-page .filter-area {
+  background: var(--purple);
+  padding: 18px;
+  border: 2px dashed var(--ink);
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.consulta-page .filter-area select {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #c59baa;
+  border-radius: 12px;
+  background: white;
+}
+
+.consulta-page .book-card {
+  background: var(--blue);
+}
+
+.consulta-page .empty-message {
+  background: var(--yellow);
+  padding: 20px;
+  border-radius: 15px;
+}

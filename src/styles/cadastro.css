@@ -1,0 +1,23 @@
+.cadastro-page .book-form {
+  display: grid;
+  gap: 14px;
+}
+
+.cadastro-page .book-form label {
+  font-weight: 700;
+}
+
+.cadastro-page .book-form input,
+.cadastro-page .book-form select {
+  width: 100%;
+  padding: 13px;
+  border: 2px dashed #c59baa;
+  border-radius: 12px;
+  background: white;
+  color: var(--ink);
+}
+
+.cadastro-page .book-form button {
+  margin-top: 8px;
+  background: var(--pink);
+}

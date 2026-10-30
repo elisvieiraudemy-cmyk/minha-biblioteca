@@ -1,0 +1,96 @@
+/* PÁGINA DE DETALHES */
+
+.detalhes-page {
+  background: #fffaf0;
+}
+
+.detalhes-back {
+  background: #a9dcc4;
+  margin-bottom: 25px;
+}
+
+.detalhes-container {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.detalhes-cover {
+  min-height: 290px;
+  background: #f7b8c8;
+  border: 2px dashed #514653;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-2deg);
+  box-shadow: 5px 5px 0 #d9b9a9;
+}
+
+.detalhes-cover span {
+  font-size: 75px;
+}
+
+.detalhes-cover p {
+  font-family: "Patrick Hand", cursive;
+  font-size: 20px;
+}
+
+.detalhes-info h2 {
+  font-family: "Patrick Hand", cursive;
+  font-size: 38px;
+  margin: 15px 0 5px;
+}
+
+.detalhes-info h3 {
+  font-family: "Patrick Hand", cursive;
+}
+
+.detalhes-category {
+  display: inline-block;
+  background: #f8d77b;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.detalhes-rating {
+  margin-top: 20px;
+  color: #e5a52e;
+  font-size: 28px;
+}
+
+.detalhes-rating p {
+  color: #514653;
+  font-size: 13px;
+}
+
+.detalhes-description,
+.detalhes-extra {
+  background: #e6d8f4;
+  border: 2px dashed #514653;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 25px;
+}
+
+.detalhes-description h3,
+.detalhes-extra h3 {
+  font-family: "Patrick Hand", cursive;
+  font-size: 25px;
+}
+
+@media (max-width: 650px) {
+  .detalhes-container {
+    grid-template-columns: 1fr;
+  }
+
+  .detalhes-cover {
+    max-width: 220px;
+    width: 100%;
+    margin: auto;
+  }
+}

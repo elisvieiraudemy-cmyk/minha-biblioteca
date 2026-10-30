@@ -1,0 +1,19 @@
+.inicio-page .welcome-card {
+  background: var(--yellow);
+  padding: 25px;
+  border: 2px dashed var(--ink);
+  border-radius: 20px;
+  margin-bottom: 25px;
+}
+
+.inicio-page .book-card:nth-child(2n) {
+  background: var(--green);
+}
+
+.inicio-page .book-card:nth-child(3n) {
+  background: var(--pink);
+}
+
+.inicio-page .book-card:nth-child(4n) {
+  background: var(--purple);
+}

@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Capas from "./Capas";
 import "../styles/Cadastro.css";
 
 function Cadastro({ categories, onAddBook, onBack }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState(categories[0]);
+  const [cover, setCover] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -19,11 +21,13 @@ function Cadastro({ categories, onAddBook, onBack }) {
       title: title.trim(),
       author: author.trim(),
       category,
+      cover,
     });
 
     setTitle("");
     setAuthor("");
     setCategory(categories[0]);
+    setCover("");
   }
 
   return (
@@ -66,6 +70,18 @@ function Cadastro({ categories, onAddBook, onBack }) {
           Voltar ao início
         </button>
       </form>
+
+      <Capas title={title} author={author} onSelectCover={setCover} />
+
+      {cover && (
+        <div className="cadastro-cover-preview">
+          <h3>Capa selecionada 💗</h3>
+          <img src={cover} alt="Capa selecionada para o livro" />
+          <button type="button" onClick={() => setCover("")}>
+            Remover capa
+          </button>
+        </div>
+      )}
     </section>
   );
 }

@@ -1,40 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Capas.css";
 
-function Capas({ initialTitle = "", initialAuthor = "", onSelectCover }) {
-  const [title, setTitle] = useState(initialTitle);
-  const [author, setAuthor] = useState(initialAuthor);
+function Capas({ title, author, onSelectCover }) {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  async function searchBooks(event) {
-    event.preventDefault();
-
-    if (!title.trim()) {
-      setMessage("Digite o título do livro.");
+  async function searchBooks(searchTitle, searchAuthor) {
+    if (!searchTitle.trim() || !searchAuthor.trim()) {
+      setResults([]);
       return;
     }
 
     setLoading(true);
     setMessage("");
-    setResults([]);
 
     try {
-      const query = [
-        `intitle:${title.trim()}`,
-        author.trim() ? `inauthor:${author.trim()}` : "",
-      ]
-        .filter(Boolean)
-        .join("+");
+      const query = `intitle:${searchTitle.trim()}+inauthor:${searchAuthor.trim()}`;
 
       const response = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=12&printType=books`,
       );
 
       if (!response.ok) {
-        throw new Error("Não foi possível pesquisar.");
+        throw new Error("Erro na pesquisa");
       }
 
       const data = await response.json();
@@ -56,11 +46,26 @@ function Capas({ initialTitle = "", initialAuthor = "", onSelectCover }) {
         setMessage("Nenhuma capa encontrada. Tente outra pesquisa.");
       }
     } catch (error) {
-      setMessage("Ocorreu um erro na pesquisa. Tente novamente.");
+      setMessage("Não foi possível pesquisar. Tente novamente.");
     } finally {
       setLoading(false);
     }
   }
+
+  // Pesquisa automática quando título e autor estão preenchidos.
+  useEffect(() => {
+    if (!title.trim() || !author.trim()) {
+      setResults([]);
+      setMessage("");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      searchBooks(title, author);
+    }, 900);
+
+    return () => clearTimeout(timer);
+  }, [title, author]);
 
   function selectCover(url) {
     onSelectCover(url);
@@ -84,7 +89,7 @@ function Capas({ initialTitle = "", initialAuthor = "", onSelectCover }) {
 
     const localUrl = URL.createObjectURL(file);
     selectCover(localUrl);
-    setMessage("Imagem carregada! 💗");
+    setMessage("Imagem selecionada! 💗");
   }
 
   function useImageUrl() {
@@ -100,33 +105,26 @@ function Capas({ initialTitle = "", initialAuthor = "", onSelectCover }) {
     <section className="capas-page">
       <h2>Escolha sua capa ✨</h2>
 
-      <form className="capas-search" onSubmit={searchBooks}>
-        <label htmlFor="cover-title">Título do livro</label>
-        <input
-          id="cover-title"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          placeholder="Ex.: Orgulho e Preconceito"
-        />
+      <p>
+        Digite o título e o autor acima. Vamos procurar capas automaticamente
+        para você.
+      </p>
 
-        <label htmlFor="cover-author">Autor</label>
-        <input
-          id="cover-author"
-          value={author}
-          onChange={(event) => setAuthor(event.target.value)}
-          placeholder="Ex.: Jane Austen"
-        />
+      <button
+        type="button"
+        onClick={() => searchBooks(title, author)}
+        disabled={loading || !title.trim() || !author.trim()}
+      >
+        {loading ? "Pesquisando..." : "🔎 Pesquisar novamente"}
+      </button>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Pesquisando..." : "🔎 Pesquisar capas"}
-        </button>
-      </form>
+      {loading && <p>Procurando capas disponíveis...</p>}
 
       {message && <p className="capas-message">{message}</p>}
 
       {results.length > 0 && (
         <div className="capas-results">
-          <h3>Escolha uma das capas encontradas</h3>
+          <h3>Escolha uma capa</h3>
 
           <div className="capas-grid">
             {results.map((book) => (
@@ -147,11 +145,11 @@ function Capas({ initialTitle = "", initialAuthor = "", onSelectCover }) {
       )}
 
       <div className="capas-upload">
-        <h3>Ou envie sua própria imagem 📷</h3>
+        <h3>Enviar sua própria imagem 📷</h3>
 
         <input type="file" accept="image/*" onChange={uploadImage} />
 
-        <h3>Ou cole o endereço da imagem</h3>
+        <h3>Ou adicionar uma imagem por URL</h3>
 
         <input
           type="url"
